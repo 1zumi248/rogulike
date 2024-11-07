@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ark_Roguelike</title>
+    <style>
+        @font-face {
+        font-family: 'MyCustomFont_1';
+        src: url('./font/ZiTiChuanQiTeZhanTi-MianFeiShangYong-2.ttf') format('woff2'); /* Super Modern Browsers */
+        font-weight: normal;
+        font-style: normal;
+        }
+        /* 简单的CSS样式，用于美化导航栏和其他元素 */
+        
+        /*body{
+            background-image: url("img/back.jpg");
+        }*/
+        #navigator {
+            background-color: #b92366;
+            overflow: hidden;
+            height:100px;
+        }
+        #navigator div > h1 {
+            position: relative;
+            color: #b92366;
+            font-family: MyCustomFont_1;
+            font-size: 60px;
+            left: 80px;
+            bottom: 50px;
+            text-shadow: 2px 2px 0 #fff, /* 添加白色阴影 */
+                 -2px -2px 0 #fff,
+                  2px -2px 0 #fff,
+                 -2px 2px 0 #fff;
+        }
+
+        #navigator .head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+        }
+
+        #navigator ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        #navigator li {
+            position: relative;
+            bottom: 34px;
+            margin: 0;
+        }
+
+        #navigator li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            font-size: 20px;
+            text-decoration: none;
+        }
+
+        #navigator li a:hover {
+            background-color: #0e0682;
+        }
+
+        /* 添加#thPast部分的样式 */
+        #thPast {
+            display: flex;
+            
+            flex-direction: column; /* 设置为列方向，使图片从上到下排列 */
+            align-items: center; /* 可选：使图片在水平方向上居中 */
+            padding: 20px; /* 设置内边距 */
+        }
+
+        /* 在原有CSS的基础上添加以下部分 */
+        #thPast img {
+            max-width: 100%;
+            height: auto;
+            z-index: 1;
+        }
+        section>p{
+            position: relative;
+            bottom: 2300px;
+            left: 660px;
+            font-size: 100px;
+            font-weight: bold;
+            z-index: -1;
+        }
+        /* 模态框的样式 */
+        .modal {
+            display: none; /* 默认隐藏 */
+            position: fixed; /* 固定位置 */
+            z-index: 3; /* 位于其他内容之上 */
+            left: 0;
+            top: 0;
+            width: 100%; /* 全宽 */
+            height: 100%; /* 全高 */
+            overflow: auto; /* 如果内容超出视口，则显示滚动条 */
+            background-color: rgb(0,0,0); /* 背景颜色 */
+            background-color: rgba(0,0,0,0.4); /* 黑色背景，带有40%的不透明度 */
+        }
+ 
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% 的顶部和底部边距，自动水平边距 */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* 宽度 */
+        }
+ 
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+ 
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <section id="navigator">
+        <header class="head">
+            <div id="title">
+                <h1>鲜蔬杯</h1>
+            </div>
+            <ul>
+                <li><a href="#home">首页</a></li>
+                <li><a href="#" onclick="openModal()">规则</a></li> <!-- 修改这里，添加onclick事件 -->
+                <li><a href="#tools">任务板</a></li>
+                <li><a href="#today's star">肉鸽高手？</a></li>
+            </ul>
+        </header>
+    </section>
+    <!-- 模态框的结构 -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>比赛规则</h2>
+            <p>开局方式：</p>
+            <p>无特殊情况就异想天开开局然后选择随心所欲</p>
+            <p>有两种招募规则</p>
+            <p>1.在每一次要招募六星干员的时候都要进行roll点，点数最大范围为已经精二的六星数量+1（1用作许愿池功能，可以将你想要招募的干员概率加一，即该干员占两个点数），不ban干员。临时招募和六星以下可直接选</p>
+            <p>2.每次招募掷一次六面骰（随机数范围1-6），投数大于3即可招募想要的干员（ban EW和logos），如果失败只能招募预备干员。投到1只能放弃招募，投到6下一次可直接招募，不用roll点（不能以欣赏皮肤为由招募三星干员！）</p>
+            <h2>计分规则</h2>
+            <p>基础分就是游戏界面结算时的分数</p>
+            <p>....</p>
+        </div>
+    </div>
+    <section id="main">
+        
+        <div id="thPast">
+            <img src="./img/rg1.png" alt="Image 1">
+            <img src="./img/rg2.png" alt="Image 2">
+            <img src="./img/rg3.png" alt="Image 3">
+            <img src="./img/rg4.png" alt="Image 4">
+            <img src="./img/rg5.png" alt="Image 5">
+        </div>
+        <p>KAZ'DEL</p>
+    </section>
+    <script>
+    function openModal() {
+        document.getElementById('myModal').style.display = 'block'; // 显示模态框
+    }
+    function closeModal() {
+        document.getElementById('myModal').style.display = 'none'; // 隐藏模态框
+    }
+    window.onload = function() {
+    var images = document.querySelectorAll('#thPast img');
+    var intervals = []; // 存储每个图片的定时器ID
+    
+    images.forEach((img, index) => {
+        let position = index % 2 === 0 ? -window.innerWidth : window.innerWidth; // 根据索引设置初始位置（完全在视窗之外）
+        let direction = index % 2 === 0 ? 'left' : 'right'; // 根据索引设置初始方向
+        var stopset=0;
+        let isMoving =true; 
+        // 定义移动函数
+        const moveImage = () => {
+            if(!isMoving)return;
+            if (direction === 'left') {
+                position += 80; // 向右移动
+                if (position >=0) {
+                    isMoving=false; // 碰到右边界时改变方向
+                    // 可以选择在这里重置 position，但在这个例子中我们直接反向移动
+                    position = 0; // 重置为靠近右边缘的位置（可选）
+                }
+            } else {
+                position -= 80; // 向左移动
+                if (position <=0) {
+                    isMoving=false; // 碰到左边界时改变方向
+                    // 同样，可以选择在这里重置 position（可选）
+                    position = 0; // 重置为靠近右边缘的位置（可选）
+                }
+            }
+
+            img.style.transform = `translateX(${position}px)`; // 更新图片位置
+
+            // 可选：添加一些额外的逻辑来处理图片完全进入视窗后的行为，比如停止移动或改变动画速度
+        };
+
+        // 设置定时器来移动图片
+        const intervalId = setInterval(moveImage, 100);
+        intervals.push(intervalId); // 存储定时器ID以便后续可以清除它们
+
+        // 立即应用初始位置样式
+        img.style.transform = `translateX(${position}px)`;
+    });
+};
+    </script>
+</body>
+</html>
